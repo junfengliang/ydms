@@ -171,5 +171,17 @@ export default {
     tagsView: 'Open Tags-View',
     fixedHeader: 'Fixed Header',
     sidebarLogo: 'Sidebar Logo'
+  },
+  global: {
+    cancel: 'Cancel',
+    confirm: 'Confirm',
+    delete: 'Delete'
+  },
+  user: {
+    tips: {
+      username: 'Please input username'
+    },
+    username: 'Username',
+    add: 'Add user'
   }
 }

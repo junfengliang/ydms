@@ -171,5 +171,17 @@ export default {
     tagsView: '开启 Tags-View',
     fixedHeader: '固定 Header',
     sidebarLogo: '侧边栏 Logo'
+  },
+  global: {
+    cancel: '取消',
+    confirm: '确定',
+    delete: '删除'
+  },
+  user: {
+    tips: {
+      username: '请输入用户名'
+    },
+    username: '用户名',
+    add: '添加用户'
   }
 }
