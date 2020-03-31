@@ -4,7 +4,7 @@
       {{ $t('user.add') }}
     </el-button>
 
-    <el-table v-loading="listLoading" class="main-table" :data="list" border fit highlight-current-row style="width: 100%">
+    <el-table v-loading="listLoading" class="main-table" :data="list" border fit stripe style="width: 100%">
       <el-table-column align="center" label="ID" width="80">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>

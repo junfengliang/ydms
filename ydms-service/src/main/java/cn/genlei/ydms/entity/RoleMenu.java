@@ -10,13 +10,13 @@ import java.util.Date;
  */
 @Data
 @Entity
-@Table(name = "sys_role")
-public class Role {
+@Table(name = "sys_role_menu")
+public class RoleMenu {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     Integer id;
-    String roleName;
-    String remark;
+    Integer roleId;
+    Integer menuId;
     Date createTime;
     Date updateTime;
 }

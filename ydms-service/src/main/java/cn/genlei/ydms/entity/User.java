@@ -21,10 +21,9 @@ public class User {
     String mobile;
     Integer status;
     Integer createUserId;
-    Date createtime;
     Date lastLoginTime;
-    Date updatetime;
-
+    Date createTime;
+    Date updateTime;
 
 
 }

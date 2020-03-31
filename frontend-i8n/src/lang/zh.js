@@ -175,7 +175,8 @@ export default {
   global: {
     cancel: '取消',
     confirm: '确定',
-    delete: '删除'
+    delete: '删除',
+    edit: '修改'
   },
   user: {
     tips: {
@@ -183,5 +184,18 @@ export default {
     },
     username: '用户名',
     add: '添加用户'
+  },
+  menu: {
+    add: '添加菜单',
+    edit: '编辑菜单',
+    parent: '父菜单',
+    name: '名称',
+    url: 'URL',
+    permission: '权限',
+    type: '类型',
+    icon: '图标',
+    orderNum: '顺序',
+    menu: '菜单',
+    button: '按钮'
   }
 }

@@ -183,5 +183,9 @@ export default {
     },
     username: 'Username',
     add: 'Add user'
+  },
+  menu: {
+    add: 'Add menu',
+    eidt: 'Edit menu'
   }
 }

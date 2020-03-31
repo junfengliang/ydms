@@ -71,8 +71,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public BaseVO add(UserDTO userDTO) {
         User user = new User();
-        user.setCreatetime(new Date());
-        user.setUpdatetime(new Date());
+        user.setCreateTime(new Date());
+        user.setUpdateTime(new Date());
         user.setUsername(userDTO.getUsername());
         userRepository.save(user);
         log.debug(user.toString());

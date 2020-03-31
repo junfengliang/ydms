@@ -46,8 +46,8 @@ public class RoleServiceImpl implements RoleService {
     public BaseVO add(RoleDTO roleDTO) {
         Role role = new Role();
         BeanUtils.copyProperties(roleDTO,role);
-        role.setCreatetime(new Date());
-        role.setUpdatetime(new Date());
+        role.setCreateTime(new Date());
+        role.setUpdateTime(new Date());
         roleRepository.save(role);
         return ReturnUtil.success();
     }
@@ -60,7 +60,7 @@ public class RoleServiceImpl implements RoleService {
                     localeMessage.getMessage("role.id.notfound"));
         }
         BeanUtils.copyProperties(roleDTO,role);
-        role.setUpdatetime(new Date());
+        role.setUpdateTime(new Date());
         roleRepository.save(role);
         return ReturnUtil.success();
     }
