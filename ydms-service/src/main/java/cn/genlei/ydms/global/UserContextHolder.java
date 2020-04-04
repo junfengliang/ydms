@@ -21,6 +21,7 @@ public class UserContextHolder {
      * @return the http servlet request
      */
     public static HttpServletRequest getRequest(){
+
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }
 

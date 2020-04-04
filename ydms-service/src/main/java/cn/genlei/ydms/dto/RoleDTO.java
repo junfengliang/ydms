@@ -10,4 +10,6 @@ public class RoleDTO {
     Integer id;
     String roleName;
     String remark;
+
+    Integer[] menuIds;
 }

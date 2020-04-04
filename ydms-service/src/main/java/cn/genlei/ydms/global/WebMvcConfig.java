@@ -30,7 +30,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         InterceptorRegistration registration = registry.addInterceptor(tokenInterceptor);
         registration.addPathPatterns("/**");
-        registration.excludePathPatterns("/user/login");
+        registration.excludePathPatterns("/user/login","/menu/demo");
     }
 
     @Override

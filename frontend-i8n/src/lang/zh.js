@@ -176,7 +176,10 @@ export default {
     cancel: '取消',
     confirm: '确定',
     delete: '删除',
-    edit: '修改'
+    edit: '修改',
+    success: '成功',
+    add: '添加',
+    unknow: '未知'
   },
   user: {
     tips: {
@@ -196,6 +199,7 @@ export default {
     icon: '图标',
     orderNum: '顺序',
     menu: '菜单',
-    button: '按钮'
+    button: '按钮',
+    message: '菜单成功'
   }
 }

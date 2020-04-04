@@ -4,7 +4,9 @@ import cn.genlei.ydms.dto.*;
 import cn.genlei.ydms.global.LocaleMessage;
 import cn.genlei.ydms.service.RoleService;
 import cn.genlei.ydms.service.UserService;
+import cn.genlei.ydms.utils.ReturnUtil;
 import cn.genlei.ydms.vo.BaseVO;
+import cn.genlei.ydms.vo.RoleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,28 +22,32 @@ public class RoleController {
     @Autowired
     RoleService roleService;
 
-    @PostMapping("add")
+    @PostMapping
     public BaseVO add(@RequestBody RoleDTO roleDTO){
         return roleService.add(roleDTO);
     }
 
-    @PostMapping("edit")
+    @PutMapping("/{id:\\d+}")
     public BaseVO edit(@RequestBody RoleDTO roleDTO){
         return roleService.edit(roleDTO);
     }
 
-    @PostMapping("delete")
-    public BaseVO delete(@RequestParam int id){
+    @DeleteMapping("/{id:\\d+}")
+    public BaseVO delete(@PathVariable int id){
         return roleService.delete(id);
     }
 
 
-    @GetMapping("list")
-    public BaseVO list(@RequestParam int page,
-                       @RequestParam("limit") int size){
+    @GetMapping("/{id:\\d+}")
+    public BaseVO detail(@PathVariable int id){
+         RoleVO roleVO = roleService.detail(id);
+         return ReturnUtil.success(roleVO);
+    }
+    @GetMapping
+    public BaseVO list(){
         RoleListDTO dto = new RoleListDTO();
-        dto.setPage(page);
-        dto.setSize(size);
+        dto.setPage(1);
+        dto.setSize(1000);
         return roleService.list(dto);
     }
 

@@ -2,35 +2,52 @@ package cn.genlei.ydms.service;
 
 import cn.genlei.ydms.dto.*;
 import cn.genlei.ydms.vo.BaseVO;
+import cn.genlei.ydms.vo.RoleVO;
 
 /**
  * The interface User service.
+ *
  * @author nid
  */
 public interface RoleService {
 
     /**
-     * @param roleListDTO
-     * @return
+     * List base vo.
+     *
+     * @param roleListDTO the role list dto
+     * @return base vo
      */
     BaseVO list(RoleListDTO roleListDTO);
 
     /**
-     * @param roleDTO
-     * @return
+     * Add base vo.
+     *
+     * @param roleDTO the role dto
+     * @return base vo
      */
     BaseVO add(RoleDTO roleDTO);
 
     /**
-     * @param roleDTO
-     * @return
+     * Edit base vo.
+     *
+     * @param roleDTO the role dto
+     * @return base vo
      */
     BaseVO edit(RoleDTO roleDTO);
 
     /**
-     * @param id
-     * @return
+     * Delete base vo.
+     *
+     * @param id the id
+     * @return base vo
      */
     BaseVO delete(int id);
 
+    /**
+     * Detail role vo.
+     *
+     * @param id the id
+     * @return the role vo
+     */
+    RoleVO detail(int id);
 }

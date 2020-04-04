@@ -10,20 +10,24 @@
       style="width: 100%"
       border
       row-key="id"
+      class="main-table"
     >
-      <el-table-column align="center" label="Name">
+      <el-table-column label="Name">
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
+          <span>
+            <i :class="scope.row.icon" />
+            {{ scope.row.name }}
+          </span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Url">
+      <el-table-column label="Url">
         <template slot-scope="scope">
           <span>{{ scope.row.url }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Permission">
+      <el-table-column label="Permission">
         <template slot-scope="scope">
           <span>{{ scope.row.permission }}</span>
         </template>
@@ -31,7 +35,7 @@
 
       <el-table-column align="center" label="Type">
         <template slot-scope="scope">
-          <span>{{ scope.row.type }}</span>
+          <span>{{ getType(scope.row.type) }}</span>
         </template>
       </el-table-column>
 
@@ -72,10 +76,10 @@
           <el-input v-model="menuForm.permission" />
         </el-form-item>
         <el-form-item :label="$t('menu.type')">
-          <template>
-            <el-radio v-model="menuForm.type" label="1">{{ $t('menu.menu') }}</el-radio>
-            <el-radio v-model="menuForm.type" label="2">{{ $t('menu.button') }}</el-radio>
-          </template>
+          <el-radio-group v-model="menuForm.type">
+            <el-radio :label="1">{{ $t('menu.menu') }}</el-radio>
+            <el-radio :label="2">{{ $t('menu.button') }}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item :label="$t('menu.icon')">
           <el-input v-model="menuForm.icon" />
@@ -102,7 +106,8 @@ import { fetchAll, addMenu, deleteMenu } from '@/api/menu'
 const defaultMenu = {
   pid: 0,
   parentId: [0],
-  name: ''
+  name: '',
+  type: 1
 }
 export default {
   name: 'MenuList',
@@ -133,6 +138,15 @@ export default {
     this.getList()
   },
   methods: {
+    getType(type) {
+      if (type === 1) {
+        return this.$t('menu.menu')
+      } else if (type === 2) {
+        return this.$t('menu.button')
+      } else {
+        return this.$t('global.unknow')
+      }
+    },
     getList() {
       this.listLoading = true
       fetchAll(this.listQuery).then(response => {
@@ -176,9 +190,14 @@ export default {
           this.menuForm.pid = this.menuForm.parentId[0]
           this.loading = true
           addMenu(this.menuForm).then(response => {
+            if (this.dialogType === 'edit') {
+              this.message = this.$t('global.edit') + this.$t('menu.message')
+            } else {
+              this.message = this.$t('global.add') + this.$t('menu.message')
+            }
             this.$notify({
-              title: '成功',
-              message: '添加菜单成功',
+              title: this.$t('global.success'),
+              message: this.message,
               type: 'success',
               duration: 2000
             })

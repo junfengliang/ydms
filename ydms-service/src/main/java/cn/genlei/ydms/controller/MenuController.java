@@ -11,6 +11,8 @@ import cn.genlei.ydms.vo.BaseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @author: Junfeng
  */
@@ -23,28 +25,36 @@ public class MenuController {
     @Autowired
     MenuService menuService;
 
-    @PostMapping("add")
+    @PostMapping
     public BaseVO add(@RequestBody MenuDTO menuDTO){
         return menuService.add(menuDTO);
     }
 
-    @PostMapping("edit")
+    @PutMapping("/{id:\\d+}")
     public BaseVO edit(@RequestBody MenuDTO menuDTO){
         return menuService.edit(menuDTO);
     }
 
-    @PostMapping("delete")
-    public BaseVO delete(@RequestParam int id){
+    @DeleteMapping("/{id:\\d+}")
+    public BaseVO delete(@PathVariable int id){
         return menuService.delete(id);
     }
 
 
-    @GetMapping("listAll")
-    public BaseVO listAll(){
-        return menuService.listAll();
+    @GetMapping
+    public BaseVO list(@RequestParam(defaultValue = "true") boolean all){
+        if(all){
+            return menuService.listAll();
+        }else{
+            return menuService.listLeft();
+        }
     }
-    @GetMapping("listLeft")
-    public BaseVO listLeft(){
-        return menuService.listLeft();
+    @GetMapping("/demo")
+    public String list(@RequestParam(defaultValue = "true") boolean all,
+                       HttpServletResponse response){
+        response.setStatus(401);
+        response.setHeader("www-Authenticate","Basic realm= \"family\"");
+        return "401";
     }
+
 }
