@@ -20,10 +20,7 @@ public class User {
     String email;
     String mobile;
     Integer status;
-    Integer createUserId;
     Date lastLoginTime;
     Date createTime;
     Date updateTime;
-
-
 }

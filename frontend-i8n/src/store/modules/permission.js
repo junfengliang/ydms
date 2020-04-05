@@ -1,4 +1,5 @@
 import { asyncRoutes, constantRoutes } from '@/router'
+import { filterRouters } from '@/utils/permission'
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -55,6 +56,17 @@ const actions = {
       } else {
         accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
       }
+      commit('SET_ROUTES', accessedRoutes)
+      resolve(accessedRoutes)
+    })
+  },
+  addMenu({ commit }, data) {
+    return new Promise(resolve => {
+      const { roles } = data
+      const { routers } = data
+      const accessedRoutes = filterRouters(routers, roles).concat(asyncRoutes)
+      console.log('accessedRoutes', accessedRoutes)
+
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })

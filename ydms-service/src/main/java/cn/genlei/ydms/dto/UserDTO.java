@@ -7,6 +7,8 @@ import lombok.Data;
  */
 @Data
 public class UserDTO {
+    Integer id;
     String username;
-
+    String email;
+    Integer[] roleIds;
 }

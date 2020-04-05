@@ -11,19 +11,26 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="120px" align="center" label="Username">
+      <el-table-column align="center" label="Username">
         <template slot-scope="scope">
           <span>{{ scope.row.username }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Actions" width="120">
+      <el-table-column align="center" label="Email">
         <template slot-scope="scope">
-          <router-link :to="'/example/edit/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">
-              Edit
-            </el-button>
-          </router-link>
+          <span>{{ scope.row.email }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="Actions">
+        <template slot-scope="scope">
+          <el-button type="primary" size="small" @click="handleEdit(scope)">
+            {{ $t('global.edit') }}
+          </el-button>
+          <el-button type="danger" size="small" @click="handleDelete(scope)">
+            {{ $t('global.delete') }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -33,7 +40,13 @@
     <el-dialog :visible.sync="dialogVisible" :title="dialogType==='edit'?'Edit User':$t('user.add')">
       <el-form ref="userForm" :model="userForm" :rules="rules" label-width="80px" label-position="left">
         <el-form-item :label="$t('user.username')">
-          <el-input v-model="userForm.username" :placeholder="$t('user.tips.username')" />
+          <el-input v-model="userForm.username" :disabled="dialogType==='edit'" :placeholder="$t('user.tips.username')" />
+        </el-form-item>
+        <el-form-item :label="$t('user.email')">
+          <el-input v-model="userForm.email" :placeholder="$t('user.tips.email')" />
+        </el-form-item>
+        <el-form-item label="Roles">
+          <el-tree ref="tree" :data="roles" :props="defaultProps" show-checkbox node-key="id" class="permission-tree" />
         </el-form-item>
 
       </el-form>
@@ -50,11 +63,16 @@
 </template>
 
 <script>
-import { fetchList, addUser } from '@/api/user'
+import { fetchList, addUser, editUser, deleteUser, getDetail } from '@/api/user'
+import { getRoles } from '@/api/role'
+
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 const defaultUser = {
-  username: ''
+  id: 0,
+  username: '',
+  email: '',
+  roleIds: []
 }
 export default {
   name: 'UserList',
@@ -75,6 +93,7 @@ export default {
       userForm: Object.assign({}, defaultUser),
       list: null,
       total: 0,
+      roles: [],
       dialogVisible: false,
       dialogType: 'new',
       rules: {
@@ -84,11 +103,16 @@ export default {
       listQuery: {
         page: 1,
         limit: 20
+      },
+      defaultProps: {
+        children: 'children',
+        label: 'roleName'
       }
     }
   },
   created() {
     this.getList()
+    this.getRoles()
   },
   methods: {
     getList() {
@@ -99,27 +123,77 @@ export default {
         this.listLoading = false
       })
     },
+    getRoles() {
+      getRoles().then(response => {
+        this.roles = response.data.list
+      })
+    },
     handleAdd() {
       this.userForm = Object.assign({}, defaultUser)
+      if (this.$refs.tree) {
+        this.$refs.tree.setCheckedNodes([])
+      }
       this.dialogType = 'new'
       this.dialogVisible = true
     },
+    handleEdit(scope) {
+      this.dialogType = 'edit'
+      this.dialogVisible = true
+      getDetail(scope.row.id).then(response => {
+        this.userForm = response.data
+        this.$refs.tree.setCheckedKeys(this.userForm.roleIds)
+      })
+    },
+    handleDelete({ $index, row }) {
+      this.$confirm('Confirm to remove the user?', 'Warning', {
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        type: 'warning'
+      })
+        .then(async() => {
+          await deleteUser(row.id)
+          this.list.splice($index, 1)
+          this.$message({
+            type: 'success',
+            message: 'Delete succed!'
+          })
+        })
+        .catch(err => { console.error(err) })
+    },
     confirmUser() {
+      const isEdit = this.dialogType === 'edit'
+      const checkedKeys = this.$refs.tree.getCheckedKeys()
+      this.userForm.roleIds = checkedKeys
       console.log(this.userForm)
+
       this.$refs.userForm.validate(valid => {
         if (valid) {
           this.loading = true
-          addUser(this.userForm).then(response => {
-            this.$notify({
-              title: '成功',
-              message: '添加用户成功',
-              type: 'success',
-              duration: 2000
+          if (isEdit) {
+            editUser(this.userForm.id, this.userForm).then(response => {
+              this.$notify({
+                title: '成功',
+                message: '修改用户成功',
+                type: 'success',
+                duration: 2000
+              })
+              this.listLoading = false
+              this.dialogVisible = false
+              this.getList()
             })
-            this.listLoading = false
-            this.dialogVisible = false
-            this.getList()
-          })
+          } else {
+            addUser(this.userForm).then(response => {
+              this.$notify({
+                title: '成功',
+                message: '添加用户成功',
+                type: 'success',
+                duration: 2000
+              })
+              this.listLoading = false
+              this.dialogVisible = false
+              this.getList()
+            })
+          }
         } else {
           console.log('error submit!!')
           return false

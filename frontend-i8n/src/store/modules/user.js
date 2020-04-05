@@ -1,6 +1,7 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
+import { fetchLeft } from '@/api/menu'
 
 const state = {
   token: getToken(),
@@ -124,6 +125,38 @@ const actions = {
       dispatch('tagsView/delAllViews', null, { root: true })
 
       resolve()
+    })
+  },
+  getNav({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      console.log('1. GetNav state.token', state)
+      fetchLeft()
+        .then(response => {
+          // 由于mockjs 不支持自定义状态码只能这样hack
+          if (!response.data) {
+            reject('Verification failed, please login again.')
+          }
+          const data = response.data
+          console.log(' data: GetNav', data)
+          commit('SET_ROLES', ['test'])
+          // if (data.permissions && data.permissions.length > 0) {
+          //   // 验证返回的roles是否是一个非空数组
+          //   commit('SET_ROLES', data.data.permissions)
+          // } else {
+          //   console.log('data.permissions: ', data.permissions)
+          //   reject('getNav: roles must be a non-null array!')
+          // }
+
+          // commit('SET_NAME', data.name)
+          // commit('SET_AVATAR', data.avatar)
+          // commit('SET_INTRODUCTION', data.introduction)
+          resolve(response)
+        })
+        .catch(error => {
+          console.log('GetNav error: ', error)
+
+          reject(error)
+        })
     })
   }
 }

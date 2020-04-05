@@ -63,4 +63,11 @@ public interface UserService {
      */
     BaseVO info();
 
+    /**
+     * User Detail.
+     *
+     * @param id the id
+     * @return the base vo
+     */
+    BaseVO detail(int id);
 }

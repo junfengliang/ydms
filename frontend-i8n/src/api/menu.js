@@ -14,7 +14,7 @@ export function fetchLeft() {
     url: '/menu',
     method: 'get',
     baseURL: baseURL,
-    params: { 'all': 'false' }
+    params: { 'all': 'true' }
   })
 }
 

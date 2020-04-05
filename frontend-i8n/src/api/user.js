@@ -19,7 +19,13 @@ export function getInfo(token) {
     headers: { 'X-Token': token }
   })
 }
-
+export function getDetail(id) {
+  return request({
+    url: `/user/${id}`,
+    method: 'get',
+    baseURL: baseURL
+  })
+}
 export function logout() {
   return request({
     url: '/user/logout',
@@ -38,9 +44,24 @@ export function fetchList(query) {
 
 export function addUser(data) {
   return request({
-    url: '/user/add',
+    url: '/user',
     method: 'post',
     baseURL: baseURL,
     data
+  })
+}
+export function editUser(id, data) {
+  return request({
+    url: `/user/${id}`,
+    method: 'put',
+    baseURL: baseURL,
+    data
+  })
+}
+export function deleteUser(id) {
+  return request({
+    url: `/user/${id}`,
+    method: 'delete',
+    baseURL: baseURL
   })
 }

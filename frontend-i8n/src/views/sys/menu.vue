@@ -189,6 +189,9 @@ export default {
         if (valid) {
           this.menuForm.pid = this.menuForm.parentId[0]
           this.loading = true
+          delete this.menuForm.createTime
+          delete this.menuForm.updateTime
+
           addMenu(this.menuForm).then(response => {
             if (this.dialogType === 'edit') {
               this.message = this.$t('global.edit') + this.$t('menu.message')

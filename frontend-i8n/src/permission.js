@@ -1,6 +1,5 @@
 import router from './router'
 import store from './store'
-import { Message } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
@@ -31,27 +30,50 @@ router.beforeEach(async(to, from, next) => {
       if (hasRoles) {
         next()
       } else {
-        try {
-          // get user info
-          // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-          const { roles } = await store.dispatch('user/getInfo')
+        // try {
+        //   // get user info
+        //   // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
+        //   const { roles } = await store.dispatch('user/getInfo')
+        //   // generate accessible routes map based on roles
+        //   //const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
 
-          // generate accessible routes map based on roles
-          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+        //   // dynamically add accessible routes
+        //   //router.addRoutes(accessRoutes)
 
-          // dynamically add accessible routes
-          router.addRoutes(accessRoutes)
+        //   // hack method to ensure that addRoutes is complete
+        //   // set the replace: true, so the navigation will not leave a history record
+        //   next({ ...to, replace: true })
+        // } catch (error) {
+        //   // remove token and go to login page to re-login
+        //   await store.dispatch('user/resetToken')
+        //   Message.error(error || 'Has Error')
+        //   next(`/login?redirect=${to.path}`)
+        //   NProgress.done()
+        // }
+        store.dispatch('user/getNav')
+          .then(res => {
+            console.log('GetNav res: ', res)
+            // 拉取user_info
+            const roles = [] // note: roles must be a object array! such as: [{id: '1', name: 'editor'}, {id: '2', name: 'developer'}]
+            // const routers = JSON.parse(window.localStorage.getItem('routers'))
 
-          // hack method to ensure that addRoutes is complete
-          // set the replace: true, so the navigation will not leave a history record
-          next({ ...to, replace: true })
-        } catch (error) {
-          // remove token and go to login page to re-login
-          await store.dispatch('user/resetToken')
-          Message.error(error || 'Has Error')
-          next(`/login?redirect=${to.path}`)
-          NProgress.done()
-        }
+            const routers = res.data && res.data.menuVOList
+            if (routers) {
+              store.dispatch('permission/addMenu', { routers, roles }).then(res => {
+                router.addRoutes(res)
+                next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+              })
+            } else {
+              store.dispatch('user/logout').then(() => {
+                next({ path: '/login' })
+              })
+            }
+          })
+          .catch(() => {
+            store.dispatch('user/logout').then(() => {
+              next({ path: '/' })
+            })
+          })
       }
     }
   } else {

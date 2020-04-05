@@ -27,9 +27,15 @@ public class UserController {
     public BaseVO login(@RequestBody LoginDTO loginDTO){
         return userService.login(loginDTO);
     }
-    @PostMapping("add")
+
+    @PostMapping
     public BaseVO add(@RequestBody UserDTO userDTO){
         return userService.add(userDTO);
+    }
+
+    @PutMapping("/{id:\\d+}")
+    public BaseVO edit(@RequestBody UserDTO userDTO){
+        return userService.edit(userDTO);
     }
 
     @GetMapping("list")
@@ -50,12 +56,13 @@ public class UserController {
     public BaseVO info(){
         return userService.info();
     }
-
-    @GetMapping("demo")
-    public String demo(){
-        return "demo " + System.currentTimeMillis();
+    @GetMapping("/{id:\\d+}")
+    public BaseVO detail(@PathVariable int id){
+        return userService.detail(id);
     }
-
-
+    @DeleteMapping("/{id:\\d+}")
+    public BaseVO delete(@PathVariable int id){
+        return userService.delete(id);
+    }
 
 }
