@@ -4,7 +4,8 @@ import Layout from '@/layout'
 export function routerMap(str) {
   const components = {
     '/sys/menu': () => import('@/views/sys/menu'),
-    '/user/list': () => import('@/views/user/list')
+    '/sys/role': () => import('@/views/sys/role'),
+    '/sys/user': () => import('@/views/sys/user')
   }
   let component = components[str]
   if (!component) {
