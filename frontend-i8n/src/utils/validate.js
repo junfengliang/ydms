@@ -1,6 +1,4 @@
-/**
- * Created by PanJiaChen on 16/11/18.
- */
+import i18n from '@/lang'
 
 /**
  * @param {string} path
@@ -33,6 +31,15 @@ export function validURL(url) {
  */
 export function validLowerCase(str) {
   const reg = /^[a-z]+$/
+  return reg.test(str)
+}
+
+/**
+ * @param {string} str
+ * @returns {Boolean}
+ */
+export function validCode(str) {
+  const reg = /^[\d]{6}$/
   return reg.test(str)
 }
 
@@ -83,4 +90,27 @@ export function isArray(arg) {
     return Object.prototype.toString.call(arg) === '[object Array]'
   }
   return Array.isArray(arg)
+}
+
+export const emailValidator = (rule, value, callback) => {
+  if (value) {
+    if (!validEmail(value)) {
+      callback(new Error(i18n.t('validate.email')))
+    } else {
+      callback()
+    }
+  } else {
+    callback()
+  }
+}
+export const codeValidator = (rule, value, callback) => {
+  if (value) {
+    if (!validCode(value)) {
+      callback(new Error(i18n.t('validate.code')))
+    } else {
+      callback()
+    }
+  } else {
+    callback()
+  }
 }

@@ -79,11 +79,27 @@ export default {
     password: 'Password',
     any: 'any',
     thirdparty: 'Or connect with',
-    thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !'
+    fpwd: 'Forget password',
+    resetPassword: 'Reset Password',
+    inputEmail: 'Please input email'
   },
   documentation: {
     documentation: 'Documentation',
     github: 'Github Repository'
+  },
+  fpwd: {
+    find: 'Find password',
+    usernameTips: 'Please input email',
+    code: 'code',
+    codeTips: 'Please input code',
+    newPass: 'Password',
+    newPassTips: 'Please input password',
+    confirmPass: 'Confirm password',
+    confirmPassTips: 'Please confirm password',
+    sendCode: 'Send code',
+    sendCodeSuccess: 'Send code success',
+    resetPassSucess: 'Reset password success',
+    second: 'Second'
   },
   permission: {
     addRole: 'New Role',
@@ -175,7 +191,12 @@ export default {
   global: {
     cancel: 'Cancel',
     confirm: 'Confirm',
-    delete: 'Delete'
+    delete: 'Delete',
+    edit: 'Edit',
+    success: 'Success',
+    add: 'Add',
+    unknow: 'Unknow',
+    next: 'Next'
   },
   user: {
     tips: {
@@ -186,6 +207,23 @@ export default {
   },
   menu: {
     add: 'Add menu',
-    eidt: 'Edit menu'
+    eidt: 'Edit menu',
+    parent: 'Parent',
+    name: 'Name',
+    url: 'URL',
+    permission: 'Permission',
+    type: 'Type',
+    icon: 'Icon',
+    orderNum: 'Order',
+    menu: 'Menu',
+    button: 'Button',
+    message: 'Menu Success'
+  },
+  validate: {
+    email: 'Please input correct email address',
+    code: 'Please input 6 number of code',
+    password: 'Please input password',
+    confirmPassword: 'Please confirm password',
+    passInconsistent: 'Passwords entered twice are inconsistent'
   }
 }

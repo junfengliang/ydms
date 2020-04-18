@@ -3,6 +3,7 @@ package cn.genlei.ydms.global;
 import cn.genlei.ydms.entity.User;
 import cn.genlei.ydms.service.TokenService;
 import cn.genlei.ydms.utils.ReturnUtil;
+import cn.genlei.ydms.utils.SleepUtil;
 import cn.genlei.ydms.vo.BaseVO;
 import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -41,8 +42,10 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
         if("OPTIONS".equals(request.getMethod())){
             return true;
         }
+        SleepUtil.sleep();
         String url = request.getRequestURI();
         log.info("preHandle request url:{}",url);
+
         String token = request.getHeader("X-Token");
         if(StringUtils.isEmpty(token)){
             return loginError(response);

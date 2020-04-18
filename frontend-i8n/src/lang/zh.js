@@ -79,7 +79,6 @@ export default {
     password: '密码',
     any: '随便填',
     thirdparty: '第三方登录',
-    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！',
     fpwd: '忘记密码',
     resetPassword: '重置密码',
     inputEmail: '请输入邮箱'
@@ -96,7 +95,11 @@ export default {
     newPass: '新密码',
     newPassTips: '请输入新密码',
     confirmPass: '确认密码',
-    confirmPassTips: '请输入新密码'
+    confirmPassTips: '请输入新密码',
+    sendCode: '发送验证码',
+    sendCodeSuccess: '发送验证码成功',
+    resetPassSucess: '密码修改成功',
+    second: '秒'
   },
   permission: {
     addRole: '新增角色',
@@ -215,5 +218,12 @@ export default {
     menu: '菜单',
     button: '按钮',
     message: '菜单成功'
+  },
+  validate: {
+    email: '请输入正确的邮箱地址',
+    code: '请输入6位数字验证码',
+    password: '请输入密码',
+    confirmPassword: '请确认密码',
+    passInconsistent: '两次输入的密码不一致'
   }
 }
