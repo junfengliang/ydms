@@ -1,8 +1,6 @@
 package cn.genlei.ydms.service;
 
-import cn.genlei.ydms.dto.LoginDTO;
-import cn.genlei.ydms.dto.UserDTO;
-import cn.genlei.ydms.dto.UserListDTO;
+import cn.genlei.ydms.dto.*;
 import cn.genlei.ydms.vo.BaseVO;
 
 /**
@@ -70,4 +68,28 @@ public interface UserService {
      * @return the base vo
      */
     BaseVO detail(int id);
+
+    /**
+     * Check username .
+     *
+     * @param checkUserDTO the check user dto
+     * @return base vo
+     */
+    BaseVO checkUsername(CheckUserDTO checkUserDTO);
+
+    /**
+     * Send verify code base vo.
+     *
+     * @param checkUserDTO the check user dto
+     * @return the base vo
+     */
+    BaseVO sendVerifyCode(CheckUserDTO checkUserDTO);
+
+    /**
+     * Reset password base vo.
+     *
+     * @param resetDTO the reset dto
+     * @return the base vo
+     */
+    BaseVO resetPassword(ResetDTO resetDTO);
 }

@@ -52,17 +52,10 @@
         {{ $t('login.logIn') }}
       </el-button>
 
-      <div style="position:relative">
-        <div class="tips">
-          <span>{{ $t('login.username') }} : admin</span>
-          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
-        </div>
-        <div class="tips">
-          <span style="margin-right:18px;">
-            {{ $t('login.username') }} : editor
-          </span>
-          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
-        </div>
+      <div style="text-align:right">
+        <router-link to="/fpwd" class="link-type">
+          <span>{{ $t('login.fpwd') }}</span>
+        </router-link>
       </div>
     </el-form>
   </div>

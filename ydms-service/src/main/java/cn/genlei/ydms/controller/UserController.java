@@ -1,8 +1,6 @@
 package cn.genlei.ydms.controller;
 
-import cn.genlei.ydms.dto.LoginDTO;
-import cn.genlei.ydms.dto.UserDTO;
-import cn.genlei.ydms.dto.UserListDTO;
+import cn.genlei.ydms.dto.*;
 import cn.genlei.ydms.global.LocaleMessage;
 
 import cn.genlei.ydms.service.UserService;
@@ -65,4 +63,16 @@ public class UserController {
         return userService.delete(id);
     }
 
+    @PostMapping("checkUsername")
+    public BaseVO checkUsername(@RequestBody CheckUserDTO checkUserDTO){
+        return userService.checkUsername(checkUserDTO);
+    }
+    @PostMapping("sendVerifyCode")
+    public BaseVO sendVerifyCode(@RequestBody CheckUserDTO checkUserDTO){
+        return userService.sendVerifyCode(checkUserDTO);
+    }
+    @PostMapping("resetPassword")
+    public BaseVO resetPassword(@RequestBody ResetDTO resetDTO){
+        return userService.resetPassword(resetDTO);
+    }
 }

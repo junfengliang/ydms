@@ -1,22 +1,25 @@
 package cn.genlei.ydms.service.impl;
 
-import cn.genlei.ydms.dto.LoginDTO;
-import cn.genlei.ydms.dto.UserDTO;
-import cn.genlei.ydms.dto.UserListDTO;
-import cn.genlei.ydms.entity.RoleMenu;
+import cn.genlei.ydms.annotation.YdmsLog;
+import cn.genlei.ydms.dto.*;
 import cn.genlei.ydms.entity.User;
 import cn.genlei.ydms.entity.UserRole;
+import cn.genlei.ydms.global.Constant;
 import cn.genlei.ydms.global.LocaleMessage;
 import cn.genlei.ydms.global.StatusCode;
 import cn.genlei.ydms.global.UserContextHolder;
 import cn.genlei.ydms.repository.UserRepository;
 import cn.genlei.ydms.repository.UserRoleRepository;
+import cn.genlei.ydms.service.CacheService;
+import cn.genlei.ydms.service.EmailService;
 import cn.genlei.ydms.service.TokenService;
 import cn.genlei.ydms.service.UserService;
 import cn.genlei.ydms.utils.ReturnUtil;
 import cn.genlei.ydms.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +28,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author nid
@@ -45,6 +49,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     TokenService tokenService;
 
+    @Autowired
+    EmailService emailService;
+
+    @Autowired
+    CacheService cacheService;
+
     @Override
     public BaseVO login(LoginDTO loginDTO) {
         User user = userRepository.findByUsername(loginDTO.getUsername());
@@ -61,6 +71,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @YdmsLog
     public BaseVO list(UserListDTO userListDTO) {
         Sort sort = Sort.by("id").descending();
         Pageable pageable = PageRequest.of(userListDTO.getPage()-1,userListDTO.getSize(),sort);
@@ -196,5 +207,49 @@ public class UserServiceImpl implements UserService {
         vo.setRoleIds(roleIds);
         vo.setId(id);
         return ReturnUtil.success(vo);
+    }
+
+    @Override
+    public BaseVO checkUsername(CheckUserDTO checkUserDTO) {
+        Optional<User> optionalUser = userRepository.findByEmail(checkUserDTO.getUsername());
+        if(optionalUser.isPresent()){
+            return ReturnUtil.success();
+        }else{
+            return ReturnUtil.error(StatusCode.USER_NOT_EXIST,"Email not exist.");
+        }
+    }
+
+    @Override
+    public BaseVO sendVerifyCode(CheckUserDTO checkUserDTO) {
+        String code = randomCode();
+        String key = cacheService.genCodeKey(checkUserDTO.getUsername());
+        cacheService.set(key,code, Constant.CACHE_MINUTE, TimeUnit.MINUTES);
+        emailService.sendCode(checkUserDTO.getUsername(),code);
+        return ReturnUtil.success();
+    }
+
+    private String randomCode() {
+        return  String.valueOf(RandomUtils.nextLong(100_000,999_999));
+    }
+
+    @Override
+    public BaseVO resetPassword(ResetDTO resetDTO) {
+        String key = cacheService.genCodeKey(resetDTO.getEmail());
+        String code = cacheService.get(key);
+        if(!resetDTO.getCode().equals(code)){
+            log.warn("input code [{}],cache code[{}]",resetDTO.getCode(),code);
+            return ReturnUtil.error(StatusCode.INVALID_CONTENT,"验证码错误！");
+        }
+        Optional<User> optionalUser = userRepository.findByEmail(resetDTO.getEmail());
+        if(!optionalUser.isPresent()){
+            return ReturnUtil.error(StatusCode.INVALID_CONTENT,"未找到用户！");
+        }
+        User user = optionalUser.get();
+        user.setSalt(UUID.randomUUID().toString());
+        String pass = DigestUtils.sha1Hex(resetDTO.getPassword() + user.getSalt());
+        user.setPassword(pass);
+        user.setUpdateTime(new Date());
+        userRepository.save(user);
+        return ReturnUtil.success();
     }
 }

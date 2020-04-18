@@ -65,3 +65,28 @@ export function deleteUser(id) {
     baseURL: baseURL
   })
 }
+export function checkUsername(data) {
+  return request({
+    url: `/user/checkUsername`,
+    method: 'post',
+    baseURL: baseURL,
+    data
+  })
+}
+export function sendVerifyCode(data) {
+  return request({
+    url: `/user/sendVerifyCode`,
+    method: 'post',
+    baseURL: baseURL,
+    data
+  })
+}
+export function resetPassword(data) {
+  return request({
+    url: `/user/resetPassword`,
+    method: 'post',
+    baseURL: baseURL,
+    data
+  })
+}
+

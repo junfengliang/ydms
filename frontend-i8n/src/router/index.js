@@ -50,6 +50,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/fpwd',
+    component: () => import('@/views/login/fpwd'),
+    hidden: true
+  },
+  {
     path: '/auth-redirect',
     component: () => import('@/views/login/auth-redirect'),
     hidden: true

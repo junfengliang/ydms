@@ -79,11 +79,24 @@ export default {
     password: '密码',
     any: '随便填',
     thirdparty: '第三方登录',
-    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
+    thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！',
+    fpwd: '忘记密码',
+    resetPassword: '重置密码',
+    inputEmail: '请输入邮箱'
   },
   documentation: {
     documentation: '文档',
     github: 'Github 地址'
+  },
+  fpwd: {
+    find: '找回密码',
+    usernameTips: '请输入邮箱',
+    code: '验证码',
+    codeTips: '请输入验证码',
+    newPass: '新密码',
+    newPassTips: '请输入新密码',
+    confirmPass: '确认密码',
+    confirmPassTips: '请输入新密码'
   },
   permission: {
     addRole: '新增角色',
@@ -179,7 +192,8 @@ export default {
     edit: '修改',
     success: '成功',
     add: '添加',
-    unknow: '未知'
+    unknow: '未知',
+    next: '下一步'
   },
   user: {
     tips: {

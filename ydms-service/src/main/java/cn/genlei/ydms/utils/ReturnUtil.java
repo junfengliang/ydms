@@ -1,7 +1,5 @@
 package cn.genlei.ydms.utils;
 
-import cn.genlei.ydms.entity.User;
-import cn.genlei.ydms.global.LocaleMessage;
 import cn.genlei.ydms.global.StatusCode;
 import cn.genlei.ydms.vo.BaseVO;
 import cn.genlei.ydms.vo.PageVO;
@@ -25,7 +23,7 @@ public class ReturnUtil {
     public static BaseVO error(int code,String msg) {
         BaseVO vo = new BaseVO();
         vo.setCode(code);
-        vo.setMsg(msg);
+        vo.setMessage(msg);
         return vo;
     }
 

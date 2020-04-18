@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class BaseVO {
     public int code;
-    public String msg;
+    public String message;
     public Object data;
 
 }

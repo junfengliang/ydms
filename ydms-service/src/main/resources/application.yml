@@ -18,10 +18,16 @@ spring:
     password:
   jpa:
     show-sql: true
+  redis:
+    host: 127.0.0.1
+    port: 6379
 
 ydms:
   jwt:
     secret: xxxxxx
+  code:
+    subject: YDMS重置密码验证码
+    text: 您的验证码是 {code} , 10分钟内有效。
 
 info:
   app:

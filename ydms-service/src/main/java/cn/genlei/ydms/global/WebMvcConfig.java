@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +31,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         InterceptorRegistration registration = registry.addInterceptor(tokenInterceptor);
         registration.addPathPatterns("/**");
-        registration.excludePathPatterns("/user/login","/menu/demo");
+        List<String> list = new ArrayList<>();
+        list.add("/user/login");
+        list.add("/user/checkUsername");
+        list.add("/user/sendVerifyCode");
+        list.add("/user/resetPassword");
+        list.add("/error");
+
+        registration.excludePathPatterns(list);
+
     }
 
     @Override
