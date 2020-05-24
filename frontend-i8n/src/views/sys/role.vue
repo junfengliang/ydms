@@ -140,7 +140,8 @@ export default {
       const isEdit = this.dialogType === 'edit'
 
       const checkedKeys = this.$refs.tree.getCheckedKeys()
-      this.role.menuIds = checkedKeys
+      const halfCheckedKeys = this.$refs.tree.getHalfCheckedKeys()
+      this.role.menuIds = checkedKeys.concat(halfCheckedKeys)
 
       if (isEdit) {
         await updateRole(this.role.id, this.role)

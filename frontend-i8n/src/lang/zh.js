@@ -200,9 +200,11 @@ export default {
   },
   user: {
     tips: {
-      username: '请输入用户名'
+      username: '请输入用户名',
+      email: '请输入邮箱'
     },
     username: '用户名',
+    email: '邮箱',
     add: '添加用户'
   },
   menu: {

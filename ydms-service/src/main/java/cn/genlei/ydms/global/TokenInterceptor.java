@@ -42,6 +42,7 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
         if("OPTIONS".equals(request.getMethod())){
             return true;
         }
+        
         SleepUtil.sleep();
         String url = request.getRequestURI();
         log.info("preHandle request url:{}",url);

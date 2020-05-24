@@ -1,7 +1,9 @@
 package cn.genlei.ydms.service;
 
 import cn.genlei.ydms.dto.*;
+import cn.genlei.ydms.entity.Role;
 import cn.genlei.ydms.vo.BaseVO;
+import cn.genlei.ydms.vo.RoleListVO;
 import cn.genlei.ydms.vo.RoleVO;
 
 /**
@@ -17,7 +19,7 @@ public interface RoleService {
      * @param roleListDTO the role list dto
      * @return base vo
      */
-    BaseVO list(RoleListDTO roleListDTO);
+    BaseVO<RoleListVO> list(RoleListDTO roleListDTO);
 
     /**
      * Add base vo.
@@ -25,7 +27,7 @@ public interface RoleService {
      * @param roleDTO the role dto
      * @return base vo
      */
-    BaseVO add(RoleDTO roleDTO);
+    BaseVO<Role> add(RoleDTO roleDTO);
 
     /**
      * Edit base vo.
@@ -33,7 +35,7 @@ public interface RoleService {
      * @param roleDTO the role dto
      * @return base vo
      */
-    BaseVO edit(RoleDTO roleDTO);
+    BaseVO<Role> edit(RoleDTO roleDTO);
 
     /**
      * Delete base vo.

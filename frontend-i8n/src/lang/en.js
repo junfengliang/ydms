@@ -200,9 +200,11 @@ export default {
   },
   user: {
     tips: {
-      username: 'Please input username'
+      username: 'Please input username',
+      email: 'Please input email'
     },
     username: 'Username',
+    email: 'Email',
     add: 'Add user'
   },
   menu: {

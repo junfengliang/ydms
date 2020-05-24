@@ -3,9 +3,13 @@ package cn.genlei.ydms.service.impl;
 import cn.genlei.ydms.dto.MenuDTO;
 import cn.genlei.ydms.entity.Menu;
 import cn.genlei.ydms.entity.Role;
+import cn.genlei.ydms.entity.RoleMenu;
+import cn.genlei.ydms.entity.User;
 import cn.genlei.ydms.global.LocaleMessage;
 import cn.genlei.ydms.global.StatusCode;
+import cn.genlei.ydms.global.UserContextHolder;
 import cn.genlei.ydms.repository.MenuRepository;
+import cn.genlei.ydms.repository.RoleMenuRepository;
 import cn.genlei.ydms.service.MenuService;
 import cn.genlei.ydms.utils.ReturnUtil;
 import cn.genlei.ydms.vo.BaseVO;
@@ -16,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author: Junfeng
@@ -26,10 +31,32 @@ public class MenuServiceImpl implements MenuService {
     MenuRepository menuRepository;
     @Autowired
     LocaleMessage localeMessage;
+    @Autowired
+    RoleMenuRepository roleMenuRepository;
+
     @Override
     public BaseVO listLeft() {
-        //TODO
-        return null;
+        List<Menu> list = menuRepository.findAll();
+        list = filter(list);
+        List<MenuVO> voList = voPatch(list);
+
+        MenuListVO menuListVO = new MenuListVO();
+        menuListVO.setMenuVOList(voList);
+
+        return ReturnUtil.success(menuListVO);
+    }
+
+    private List<Menu> filter(List<Menu> list) {
+        User user = UserContextHolder.getCurrent();
+        int userId = user.getId();
+        List<RoleMenu> roleMenuList = roleMenuRepository.queryRoleMenu(userId);
+        Set<Integer> set = roleMenuList.stream()
+                .mapToInt(rm -> rm.getMenuId())
+                .collect(HashSet::new,(s,i)->s.add(i),HashSet::addAll);
+
+        return list.stream().filter(menu -> set.contains(menu.getId()))
+                .collect(Collectors.toList());
+
     }
 
     @Override
@@ -44,36 +71,36 @@ public class MenuServiceImpl implements MenuService {
     }
 
     private List<MenuVO> voPatch(List<Menu> list) {
-        if(list==null){
+        if (list == null) {
             return null;
         }
-        Map<Integer,List<MenuVO>> map = new HashMap<>();
+        Map<Integer, List<MenuVO>> map = new HashMap<>();
         List<MenuVO> rootVO = new ArrayList<>();
         List<MenuVO> allVO = new ArrayList<>();
 
-        for(Menu menu:list){
+        for (Menu menu : list) {
             MenuVO menuVO = new MenuVO();
             allVO.add(menuVO);
-            BeanUtils.copyProperties(menu,menuVO);
+            BeanUtils.copyProperties(menu, menuVO);
 
             Integer pid = menu.getPid();
-            if(pid==null || pid==0){
+            if (pid == null || pid == 0) {
                 rootVO.add(menuVO);
-            }else{
+            } else {
                 List<MenuVO> l = map.get(pid);
-                if(l==null){
+                if (l == null) {
                     l = new ArrayList<>();
                     l.add(menuVO);
-                    map.put(pid,l);
-                }else {
+                    map.put(pid, l);
+                } else {
                     l.add(menuVO);
                 }
             }
         }
 
-        allVO.forEach((value) ->{
+        allVO.forEach((value) -> {
             List<MenuVO> children = map.get(value.getId());
-            if(children!=null){
+            if (children != null) {
                 Collections.sort(children);
                 value.setChildren(children);
             }
@@ -87,10 +114,10 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public BaseVO add(MenuDTO menuDTO) {
         Menu menu = new Menu();
-        BeanUtils.copyProperties(menuDTO,menu);
+        BeanUtils.copyProperties(menuDTO, menu);
         menu.setCreateTime(new Date());
         menu.setUpdateTime(new Date());
-        if(menu.getOrderNum()==null){
+        if (menu.getOrderNum() == null) {
             menu.setOrderNum(0);
         }
         menuRepository.save(menu);
@@ -100,11 +127,11 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public BaseVO edit(MenuDTO menuDTO) {
         Menu menu = menuRepository.getOne(menuDTO.getId());
-        if(menu==null){
+        if (menu == null) {
             return ReturnUtil.error(StatusCode.INVALID_CONTENT,
                     localeMessage.getMessage("role.id.notfound"));
         }
-        BeanUtils.copyProperties(menu,menu);
+        BeanUtils.copyProperties(menu, menu);
         menu.setUpdateTime(new Date());
         menuRepository.save(menu);
         return ReturnUtil.success();

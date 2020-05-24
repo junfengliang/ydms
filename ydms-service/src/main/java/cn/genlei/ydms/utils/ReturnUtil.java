@@ -11,7 +11,8 @@ import org.springframework.data.domain.Page;
  */
 public class ReturnUtil {
 
-    public static BaseVO success(Object data) {
+
+    public static<T> BaseVO<T> success(T data) {
         BaseVO vo = new BaseVO();
         vo.setCode(StatusCode.SUCCESS);
         vo.setData(data);

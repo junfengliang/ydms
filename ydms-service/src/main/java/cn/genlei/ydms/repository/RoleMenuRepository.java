@@ -35,4 +35,9 @@ public interface RoleMenuRepository extends JpaRepository<RoleMenu, Integer> {
     @Modifying
     @Query("delete from RoleMenu r where r.roleId=:roleId")
     int deleteByRoleId(int roleId);
+
+    @Query(value = "SELECT r " +
+            " FROM RoleMenu r, UserRole ur " +
+            " WHERE r.roleId = ur.roleId and ur.userId=:userId")
+    public List<RoleMenu> queryRoleMenu(int userId);
 }

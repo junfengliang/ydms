@@ -11,10 +11,7 @@ import cn.genlei.ydms.repository.RoleMenuRepository;
 import cn.genlei.ydms.repository.RoleRepository;
 import cn.genlei.ydms.service.RoleService;
 import cn.genlei.ydms.utils.ReturnUtil;
-import cn.genlei.ydms.vo.BaseVO;
-import cn.genlei.ydms.vo.RoleListVO;
-import cn.genlei.ydms.vo.RoleVO;
-import cn.genlei.ydms.vo.UserListVO;
+import cn.genlei.ydms.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +37,7 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     LocaleMessage localeMessage;
     @Override
-    public BaseVO list(RoleListDTO roleListDTO) {
+    public BaseVO<RoleListVO> list(RoleListDTO roleListDTO) {
         Sort sort = Sort.by("id").ascending();
         Pageable pageable = PageRequest.of(roleListDTO.getPage()-1,roleListDTO.getSize(),sort);
         Page<Role> page = roleRepository.findAll(pageable);
@@ -51,7 +48,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public BaseVO add(RoleDTO roleDTO) {
+    public BaseVO<Role> add(RoleDTO roleDTO) {
         Role role = new Role();
         BeanUtils.copyProperties(roleDTO,role);
         role.setCreateTime(new Date());
@@ -109,7 +106,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public BaseVO edit(RoleDTO roleDTO) {
+    public BaseVO<Role> edit(RoleDTO roleDTO) {
         Role role = roleRepository.getOne(roleDTO.getId());
         if(role==null){
             return ReturnUtil.error(StatusCode.INVALID_CONTENT,

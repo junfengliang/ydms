@@ -37,6 +37,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         list.add("/user/sendVerifyCode");
         list.add("/user/resetPassword");
         list.add("/error");
+        list.add("/swagger**");
+        list.add("/webjars/**");
 
         registration.excludePathPatterns(list);
 
