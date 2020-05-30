@@ -6,6 +6,7 @@
     </el-button>
 
     <el-table
+      v-loading="listLoading"
       :data="list"
       style="width: 100%"
       border
@@ -125,7 +126,7 @@ export default {
     }
     return {
       menuForm: Object.assign({}, defaultMenu),
-      list: null,
+      list: [],
       dialogVisible: false,
       dialogType: 'new',
       rules: {

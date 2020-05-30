@@ -4,7 +4,7 @@
       {{ $t('permission.addRole') }}
     </el-button>
 
-    <el-table :data="rolesList" style="width: 100%;margin-top:30px;" border>
+    <el-table v-loading="listLoading" :data="rolesList" style="width: 100%;margin-top:30px;" border>
       <el-table-column align="center" label="Role ID" width="220">
         <template slot-scope="scope">
           {{ scope.row.id }}
@@ -81,6 +81,7 @@ export default {
       routes: [],
       dialogVisible: false,
       dialogType: 'new',
+      listLoading: true,
       checkStrictly: false,
       defaultProps: {
         children: 'children',
@@ -94,13 +95,18 @@ export default {
   },
   methods: {
     async getRoutes() {
+      this.listLoading = true
+
       const res = await fetchAll()
       this.serviceRoutes = res.data.menuVOList
       this.routes = this.serviceRoutes
+      this.listLoading = false
     },
     async getRoles() {
+      this.listLoading = true
       const res = await getRoles()
       this.rolesList = res.data.list
+      this.listLoading = false
     },
     handleAddRole() {
       this.role = Object.assign({}, defaultRole)
