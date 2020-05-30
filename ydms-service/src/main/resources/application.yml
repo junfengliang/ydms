@@ -1,7 +1,7 @@
 server:
   port: 9019
   servlet:
-    context-path: /ydms
+    context-path: /
 
 spring:
   application:

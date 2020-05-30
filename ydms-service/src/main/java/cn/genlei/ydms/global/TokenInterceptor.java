@@ -1,5 +1,6 @@
 package cn.genlei.ydms.global;
 
+import cn.genlei.ydms.annotation.YdmsAuth;
 import cn.genlei.ydms.entity.User;
 import cn.genlei.ydms.service.TokenService;
 import cn.genlei.ydms.utils.ReturnUtil;
@@ -12,12 +13,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
 /**
  * @author nid
@@ -39,10 +43,21 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
         if("OPTIONS".equals(request.getMethod())){
             return true;
         }
-        
+        if(handler instanceof HandlerMethod){
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            Method method = handlerMethod.getMethod();
+            Annotation ana = method.getDeclaringClass().getAnnotation(YdmsAuth.class);
+            if(ana==null){
+                return true;
+            }
+        }else {
+            return true;
+        }
+
         SleepUtil.sleep();
         String url = request.getRequestURI();
         log.info("preHandle request url:{}",url);

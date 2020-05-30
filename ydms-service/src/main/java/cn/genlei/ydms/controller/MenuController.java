@@ -1,5 +1,6 @@
 package cn.genlei.ydms.controller;
 
+import cn.genlei.ydms.annotation.YdmsAuth;
 import cn.genlei.ydms.dto.MenuDTO;
 import cn.genlei.ydms.dto.RoleDTO;
 import cn.genlei.ydms.dto.RoleListDTO;
@@ -19,6 +20,7 @@ import java.util.concurrent.Semaphore;
  */
 @RestController
 @RequestMapping("menu")
+@YdmsAuth
 public class MenuController {
     @Autowired
     LocaleMessage localeMessage;

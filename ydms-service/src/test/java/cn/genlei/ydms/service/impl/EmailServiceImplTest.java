@@ -20,8 +20,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author: Junfeng
  */
-@SpringBootTest
-@RunWith(SpringRunner.class)
+//@SpringBootTest
+//@RunWith(SpringRunner.class)
 public class EmailServiceImplTest {
     @Autowired
     EmailService emailService;
@@ -31,7 +31,7 @@ public class EmailServiceImplTest {
     @Value("${spring.mail.username}")
     String from;
 
-    @Test
+   // @Test
     public void send() {
         String subject = "email test";
         String text = " body 000999";
@@ -39,7 +39,7 @@ public class EmailServiceImplTest {
         emailService.send(subject,text,to);
     }
 
-    @Test
+  //  @Test
     public void  sendWithName() throws MessagingException, UnsupportedEncodingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "utf-8");

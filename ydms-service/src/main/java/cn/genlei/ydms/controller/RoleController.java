@@ -1,5 +1,6 @@
 package cn.genlei.ydms.controller;
 
+import cn.genlei.ydms.annotation.YdmsAuth;
 import cn.genlei.ydms.dto.*;
 import cn.genlei.ydms.entity.Role;
 import cn.genlei.ydms.global.LocaleMessage;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = {"Role interface"})
 @RestController
 @RequestMapping("role")
+@YdmsAuth
 public class RoleController {
     private final static String roleDesc = "Get role detail via role id, long long long long";
     @Autowired

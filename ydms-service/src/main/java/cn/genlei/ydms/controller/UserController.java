@@ -1,5 +1,6 @@
 package cn.genlei.ydms.controller;
 
+import cn.genlei.ydms.annotation.YdmsAuth;
 import cn.genlei.ydms.dto.*;
 import cn.genlei.ydms.global.LocaleMessage;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("user")
+@YdmsAuth
 public class UserController {
     @Autowired
     LocaleMessage localeMessage;
@@ -22,11 +24,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping("login")
-    public BaseVO login(@RequestBody LoginDTO loginDTO){
-        SleepUtil.sleep();
-        return userService.login(loginDTO);
-    }
 
     @PostMapping
     public BaseVO add(@RequestBody UserDTO userDTO){
@@ -65,19 +62,5 @@ public class UserController {
         return userService.delete(id);
     }
 
-    @PostMapping("checkUsername")
-    public BaseVO checkUsername(@RequestBody CheckUserDTO checkUserDTO){
-        SleepUtil.sleep();
-        return userService.checkUsername(checkUserDTO);
-    }
-    @PostMapping("sendVerifyCode")
-    public BaseVO sendVerifyCode(@RequestBody CheckUserDTO checkUserDTO){
-        SleepUtil.sleep();
-        return userService.sendVerifyCode(checkUserDTO);
-    }
-    @PostMapping("resetPassword")
-    public BaseVO resetPassword(@RequestBody ResetDTO resetDTO){
-        SleepUtil.sleep();
-        return userService.resetPassword(resetDTO);
-    }
+
 }

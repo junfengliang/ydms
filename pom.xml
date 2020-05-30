@@ -16,7 +16,7 @@
         <version>2.2.5.RELEASE</version>
     </parent>
     <modules>
+        <module>frontend-i8n</module>
         <module>ydms-service</module>
-        <module>ydms-auth</module>
     </modules>
 </project>
