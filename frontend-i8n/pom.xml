@@ -21,6 +21,24 @@
 
   <build>
     <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>dist</directory>
+              <includes>
+                <include>**</include>
+              </includes>
+              <excludes>
+                <exclude>*.yml</exclude>
+              </excludes>
+              <followSymlinks>false</followSymlinks>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
       <!--frontend-maven-plugin为项目本地下载/安装Node和NPM，运行npm install命令-->
       <plugin>
         <groupId>com.github.eirslett</groupId>
