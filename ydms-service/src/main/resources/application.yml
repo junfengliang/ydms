@@ -18,7 +18,7 @@ spring:
     password:
   jpa:
     show-sql: true
-  redis:
+  xxx-redis:
     host: 127.0.0.1
     port: 6379
 

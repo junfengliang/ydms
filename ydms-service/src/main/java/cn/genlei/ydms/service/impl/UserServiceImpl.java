@@ -10,7 +10,6 @@ import cn.genlei.ydms.global.StatusCode;
 import cn.genlei.ydms.global.UserContextHolder;
 import cn.genlei.ydms.repository.UserRepository;
 import cn.genlei.ydms.repository.UserRoleRepository;
-import cn.genlei.ydms.service.CacheService;
 import cn.genlei.ydms.service.EmailService;
 import cn.genlei.ydms.service.TokenService;
 import cn.genlei.ydms.service.UserService;
@@ -19,8 +18,8 @@ import cn.genlei.ydms.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +27,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author nid
@@ -53,7 +51,7 @@ public class UserServiceImpl implements UserService {
     EmailService emailService;
 
     @Autowired
-    CacheService cacheService;
+    CacheManager cacheManager;
 
     @Override
     public BaseVO login(LoginDTO loginDTO) {
@@ -222,10 +220,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public BaseVO sendVerifyCode(CheckUserDTO checkUserDTO) {
         String code = randomCode();
-        String key = cacheService.genCodeKey(checkUserDTO.getUsername());
-        cacheService.set(key,code, Constant.CACHE_MINUTE, TimeUnit.MINUTES);
+        String key = genCodeKey(checkUserDTO.getUsername());
+        cacheManager.getCache(Constant.CACHE_YDMS).put(key,code);
         emailService.sendCode(checkUserDTO.getUsername(),code);
         return ReturnUtil.success();
+    }
+
+    private String genCodeKey(String username) {
+        return String.format("code_%s",username);
     }
 
     private String randomCode() {
@@ -234,8 +236,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public BaseVO resetPassword(ResetDTO resetDTO) {
-        String key = cacheService.genCodeKey(resetDTO.getEmail());
-        String code = cacheService.get(key);
+        String key = genCodeKey(resetDTO.getEmail());
+        String code = cacheManager.getCache(Constant.CACHE_YDMS).get(key,String.class);
         if(!resetDTO.getCode().equals(code)){
             log.warn("input code [{}],cache code[{}]",resetDTO.getCode(),code);
             return ReturnUtil.error(StatusCode.INVALID_CONTENT,"验证码错误！");
