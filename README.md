@@ -3,7 +3,7 @@
 YDMS是一个简单的后台管理系统。目标是为各位赶项目的朋友提供一个基础框架，欢迎各位开发者基于本项目做业务的开发。本项目采用vue+java前后端分离，但打包时又可以把前端的页面打包到jar包里，节约资源。
 
 ## 在线 DEMO
-建设中
+[http://121.36.196.89:9019/](http://121.36.196.89:9019/)
 
 ## 快速开始
 安装前，请确保你的电脑安装了jdk1.8或以上版本, MySQL 5.6或以上版本
@@ -32,4 +32,4 @@ java -jar ydms-service/target/ydms-service-0.1.0.jar
 
 ## 界面初看
 
-![menu](docs/image/menu.png)
+![menu](docs/image/menu1.png)
