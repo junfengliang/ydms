@@ -33,7 +33,9 @@ public class TokenServiceImpl implements TokenService {
         int uid = NumberUtils.toInt(userId);
         Optional<User> optionalUser = userRepository.findById(uid);
         if(optionalUser.isPresent()){
-            return optionalUser.get();
+            User user = optionalUser.get();
+            user.getRoleList();
+            return user;
         }
         return null;
     }

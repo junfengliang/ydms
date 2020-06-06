@@ -2,6 +2,7 @@ package cn.genlei.ydms.service.impl;
 
 import cn.genlei.ydms.annotation.YdmsLog;
 import cn.genlei.ydms.dto.*;
+import cn.genlei.ydms.entity.Role;
 import cn.genlei.ydms.entity.User;
 import cn.genlei.ydms.entity.UserRole;
 import cn.genlei.ydms.global.Constant;
@@ -27,6 +28,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author nid
@@ -181,13 +183,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public BaseVO info() {
-        //TODO role
+        //TODO image
         User user = UserContextHolder.getCurrent();
         UserInfoVO vo = new UserInfoVO();
         vo.setAvatar("https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png");
-        vo.setIntroduction("intro");
+        vo.setIntroduction("");
         vo.setName(user.getUsername());
-        vo.setRoles(new String[]{"admin"});
+        List<Role> list = user.getRoleList();
+        List<String> roleList = list.stream().map(Role::getRoleName).collect(Collectors.toList());
+        vo.setRoles(roleList);
         return ReturnUtil.success(vo);
     }
 

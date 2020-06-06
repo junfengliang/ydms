@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-button type="primary" @click="handleAdd">
+    <el-button v-permission="['Admin']" type="primary" @click="handleAdd">
       {{ $t('user.add') }}
     </el-button>
 
@@ -25,10 +25,10 @@
 
       <el-table-column align="center" label="Actions">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope)">
+          <el-button v-permission="['Admin']" type="primary" size="small" @click="handleEdit(scope)">
             {{ $t('global.edit') }}
           </el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope)">
+          <el-button v-permission="['Admin']" type="danger" size="small" @click="handleDelete(scope)">
             {{ $t('global.delete') }}
           </el-button>
         </template>

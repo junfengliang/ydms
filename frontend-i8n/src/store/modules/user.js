@@ -138,7 +138,6 @@ const actions = {
           }
           const data = response.data
           console.log(' data: GetNav', data)
-          commit('SET_ROLES', ['test'])
           // if (data.permissions && data.permissions.length > 0) {
           //   // 验证返回的roles是否是一个非空数组
           //   commit('SET_ROLES', data.data.permissions)
