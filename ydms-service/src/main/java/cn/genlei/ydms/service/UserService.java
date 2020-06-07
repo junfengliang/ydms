@@ -92,4 +92,6 @@ public interface UserService {
      * @return the base vo
      */
     BaseVO resetPassword(ResetDTO resetDTO);
+
+    BaseVO changePassword(ChangePasswordDTO passwordDTO);
 }

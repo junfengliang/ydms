@@ -14,5 +14,5 @@ public class StatusCode {
 
     public static final int USERNAME_OR_PASSWORD_ERROR=51001;
     public static final int USER_NOT_EXIST=51002;
-
+    public static final int PASSWORD_ERROR = 51003;
 }

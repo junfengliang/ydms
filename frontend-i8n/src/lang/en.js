@@ -70,6 +70,7 @@ export default {
     logOut: 'Log Out',
     profile: 'Profile',
     theme: 'Theme',
+    password: 'Change Password',
     size: 'Global Size'
   },
   login: {

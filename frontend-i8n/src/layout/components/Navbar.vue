@@ -26,6 +26,11 @@
               {{ $t('navbar.profile') }}
             </el-dropdown-item>
           </router-link>
+          <router-link to="/profile/password">
+            <el-dropdown-item>
+              {{ $t('navbar.password') }}
+            </el-dropdown-item>
+          </router-link>
           <el-dropdown-item divided>
             <span style="display:block;" @click="logout">{{ $t('navbar.logOut') }}</span>
           </el-dropdown-item>

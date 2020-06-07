@@ -175,6 +175,10 @@ public class UserServiceImpl implements UserService {
         String msg = localeMessage.getMessage("username.or.password.error");
         return ReturnUtil.error(StatusCode.USERNAME_OR_PASSWORD_ERROR,msg);
     }
+    private BaseVO passError() {
+        String msg = localeMessage.getMessage("password.error");
+        return ReturnUtil.error(StatusCode.PASSWORD_ERROR,msg);
+    }
 
     @Override
     public BaseVO logout() {
@@ -256,6 +260,20 @@ public class UserServiceImpl implements UserService {
         user.setPassword(pass);
         user.setUpdateTime(new Date());
         userRepository.save(user);
+        return ReturnUtil.success();
+    }
+
+    @Override
+    public BaseVO changePassword(ChangePasswordDTO passwordDTO) {
+        User user = UserContextHolder.getCurrent();
+        if(!passMatch(user,passwordDTO.getOld())){
+            return passError();
+        }
+        String calc = DigestUtils.sha1Hex(passwordDTO.getPassword() + user.getSalt());
+        user.setPassword(calc);
+        user.setUpdateTime(new Date());
+        userRepository.save(user);
+
         return ReturnUtil.success();
     }
 }

@@ -70,6 +70,7 @@ export default {
     logOut: '退出登录',
     profile: '个人中心',
     theme: '换肤',
+    password: '修改密码',
     size: '布局大小'
   },
   login: {
@@ -99,7 +100,9 @@ export default {
     sendCode: '发送验证码',
     sendCodeSuccess: '发送验证码成功',
     resetPassSucess: '密码修改成功',
-    second: '秒'
+    second: '秒',
+    oldPassTips: '请输入旧密码',
+    old: '旧密码'
   },
   permission: {
     addRole: '新增角色',
@@ -224,6 +227,7 @@ export default {
   validate: {
     email: '请输入正确的邮箱地址',
     code: '请输入6位数字验证码',
+    old: '请输入旧密码',
     password: '请输入密码',
     confirmPassword: '请确认密码',
     passInconsistent: '两次输入的密码不一致'

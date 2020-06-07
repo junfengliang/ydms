@@ -90,3 +90,12 @@ export function resetPassword(data) {
   })
 }
 
+export function changePassword(data) {
+  return request({
+    url: `/user/changePassword`,
+    method: 'post',
+    baseURL: baseURL,
+    data
+  })
+}
+

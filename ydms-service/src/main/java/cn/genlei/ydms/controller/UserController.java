@@ -62,5 +62,9 @@ public class UserController {
         return userService.delete(id);
     }
 
-
+    @PostMapping("changePassword")
+    public BaseVO changePassword(@RequestBody ChangePasswordDTO passwordDTO){
+        SleepUtil.sleep();
+        return userService.changePassword(passwordDTO);
+    }
 }

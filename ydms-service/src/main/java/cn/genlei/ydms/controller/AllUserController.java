@@ -24,7 +24,6 @@ public class AllUserController {
 
     @PostMapping("login")
     public BaseVO login(@RequestBody LoginDTO loginDTO){
-        SleepUtil.sleep();
         return userService.login(loginDTO);
     }
 

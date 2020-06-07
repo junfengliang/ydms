@@ -5,7 +5,8 @@ export function routerMap(str) {
   const components = {
     '/sys/menu': () => import('@/views/sys/menu'),
     '/sys/role': () => import('@/views/sys/role'),
-    '/sys/user': () => import('@/views/sys/user')
+    '/sys/user': () => import('@/views/sys/user'),
+    '/sys/password': () => import('@/views/sys/password')
   }
   let component = components[str]
   if (!component) {
